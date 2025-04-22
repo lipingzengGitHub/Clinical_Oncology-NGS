@@ -1,0 +1,33 @@
+name: CI Test for Clinical Oncology NGS Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Install Nextflow
+        run: |
+          curl -s https://get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+
+      - name: Run pipeline dry test
+        run: |
+          nextflow run Clinical_Oncology-NGS.nf \
+            --input_dir test_data \
+            --ref data/hg38.fa \
+            -profile docker \
+            -resume
