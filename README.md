@@ -53,22 +53,6 @@ report_*.html – Interactive reports
 
 all_annotated_merged.tsv – Combined variant table across samples
 
-### Project Structure
-oncology-ngs-pipeline/
-├── Clinical_Oncology-NGS.nf        # Main pipeline (Nextflow DSL2)
-├── Dockerfile                      # Bioinformatics toolchain
-├── Makefile                        # CLI automation
-├── README.md                       # This file
-├── CHANGELOG.md                    # Version history
-├── setup_project_ci.py             # Test data + CI setup
-├── assets/
-│   └── report_template.Rmd         # HTML report template
-├── bin/
-│   └── lis_output_formatter.py     # JSON + PDF report output
-├── test_data/                      # Minimal demo data
-├── .github/
-│   └── workflows/test_pipeline.yml # GitHub CI workflow
-
 
 ### Acknowledgements
 Built using Nextflow, GATK, CNVkit, Manta, STAR-Fusion, ANNOVAR, and more.
