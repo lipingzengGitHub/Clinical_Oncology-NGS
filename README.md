@@ -29,7 +29,7 @@ nextflow run Clinical_Oncology-NGS.nf -profile docker --input_dir data --ref dat
 # Run with AWS Batch:
 nextflow run Clinical_Oncology-NGS.nf -profile awsbatch --input_dir s3://your-bucket/data --ref s3://your-bucket/hg38.fa
 
-📁 Input Structure
+### Input Structure
 Each patient’s FASTQ files should be placed in a separate subdirectory under data/:
 data/
 ├── Patient001/
@@ -70,7 +70,7 @@ oncology-ngs-pipeline/
 │   └── workflows/test_pipeline.yml # GitHub CI workflow
 
 
-🙌 Acknowledgements
+### Acknowledgements
 Built using Nextflow, GATK, CNVkit, Manta, STAR-Fusion, ANNOVAR, and more.
 Inspired by open-source efforts in clinical genomics and bioinformatics workflows.
 
