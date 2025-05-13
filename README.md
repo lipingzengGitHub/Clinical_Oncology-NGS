@@ -1,11 +1,10 @@
-# 🧬 Clinical Oncology NGS Pipeline
+# Clinical Oncology NGS Pipeline
 
 This pipeline performs full **germline and somatic variant analysis** for oncology samples using WGS or WES data.  
 Designed for both **clinical and scientific** use cases, it supports local, Docker, and AWS Batch environments.
 
----
 
-## 🧪 Features
+## Features
 
 - Germline & somatic SNP/Indel detection (GATK HaplotypeCaller / Mutect2)
 - CNV detection using CNVkit or GATK CNV
@@ -18,14 +17,14 @@ Designed for both **clinical and scientific** use cases, it supports local, Dock
 - AWS Batch and CloudWatch integration
 - GitHub Actions CI for continuous testing
 
----
 
-## 🚀 Quickstart
+## Quickstart
 
 ### Run locally with Docker:
 
 ```bash
 nextflow run Clinical_Oncology-NGS.nf -profile docker --input_dir data --ref data/hg38.fa
+```
 
 # Run with AWS Batch:
 nextflow run Clinical_Oncology-NGS.nf -profile awsbatch --input_dir s3://your-bucket/data --ref s3://your-bucket/hg38.fa
@@ -41,7 +40,7 @@ data/
 
 If normal_R1/R2.fastq.gz are provided, tumor-normal paired analysis is automatically triggered. Otherwise, tumor-only mode is used.
 
-📤 Output Files
+### Output Files
 *.g.vcf.gz or *_mutect.vcf.gz – Germline or somatic variant calls
 
 *_cnv.cns, *_manta.vcf.gz – CNV and SV results
@@ -54,7 +53,7 @@ report_*.html – Interactive reports
 
 all_annotated_merged.tsv – Combined variant table across samples
 
-📦 Project Structure
+### Project Structure
 oncology-ngs-pipeline/
 ├── Clinical_Oncology-NGS.nf        # Main pipeline (Nextflow DSL2)
 ├── Dockerfile                      # Bioinformatics toolchain
