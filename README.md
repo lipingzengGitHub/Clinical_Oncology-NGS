@@ -1,61 +1,30 @@
-# Clinical Oncology NGS Pipeline
+# Cancer-WGS-Variant-Calling Pipeline
 
-This pipeline performs full **germline and somatic variant analysis** for oncology samples using WGS or WES data.  
-Designed for both **clinical and scientific** use cases, it supports local, Docker, and AWS Batch environments.
+A modular, Dockerized **Nextflow** pipeline for analyzing **whole genome sequencing (WGS)** data from cancer patients, supporting both **tumor-normal paired analysis** and **tumor-only mode**. The workflow is designed to simulate clinical-grade variant analysis, integrating quality control, alignment, somatic/germline variant calling, annotation, and reporting.
 
+---
 
 ## Features
 
-- Germline & somatic SNP/Indel detection (GATK HaplotypeCaller / Mutect2)
-- CNV detection using CNVkit or GATK CNV
-- Structural variant (SV) detection via Manta
-- Fusion detection (STAR-Fusion, optional)
-- Variant annotation with ANNOVAR or VEP
-- Integration with ClinVar, COSMIC, OncoKB
-- Interactive HTML report (RMarkdown)
-- JSON/PDF LIS-ready outputs
-- AWS Batch and CloudWatch integration
-- GitHub Actions CI for continuous testing
+- ✅ Supports both **paired tumor-normal** and **tumor-only** input modes
+- ✅ Variant calling using **GATK Mutect2** (somatic) and **HaplotypeCaller** (germline)
+- ✅ Quality control with **FastQC** and adapter trimming via **Trimmomatic**
+- ✅ Read alignment using **BWA**, BAM processing with **SAMtools**, and deduplication using **GATK MarkDuplicates**
+- ✅ Annotation with **ANNOVAR** against public cancer-related databases (ClinVar, COSMIC)
+- ✅ Report generation via **RMarkdown** (HTML) and LIS-compatible outputs (PDF, JSON)
+- 🧪 Designed for benchmarking, training, and prototyping of cancer genomics workflows
 
+---
 
-## Quickstart
+## Workflow Overview
 
-### Run locally with Docker:
-
-```bash
-nextflow run Clinical_Oncology-NGS.nf -profile docker --input_dir data --ref data/hg38.fa
-```
-
-# Run with AWS Batch:
-nextflow run Clinical_Oncology-NGS.nf -profile awsbatch --input_dir s3://your-bucket/data --ref s3://your-bucket/hg38.fa
-
-### Input Structure
-Each patient’s FASTQ files should be placed in a separate subdirectory under data/:
-data/
-├── Patient001/
-│   ├── tumor_R1.fastq.gz
-│   ├── tumor_R2.fastq.gz
-│   ├── normal_R1.fastq.gz  # optional
-│   └── normal_R2.fastq.gz
-
-If normal_R1/R2.fastq.gz are provided, tumor-normal paired analysis is automatically triggered. Otherwise, tumor-only mode is used.
-
-### Output Files
-*.g.vcf.gz or *_mutect.vcf.gz – Germline or somatic variant calls
-
-*_cnv.cns, *_manta.vcf.gz – CNV and SV results
-
-*_annotated.txt – Annotated variant tables
-
-report_*.html – Interactive reports
-
-*.json, *.pdf – LIS-compatible summary reports
-
-all_annotated_merged.tsv – Combined variant table across samples
-
-
-### Acknowledgements
-Built using Nextflow, GATK, CNVkit, Manta, STAR-Fusion, ANNOVAR, and more.
-Inspired by open-source efforts in clinical genomics and bioinformatics workflows.
-
-
+```mermaid
+flowchart TD
+    A[FASTQ Input] --> B{Paired or Tumor-only}
+    B -->|Paired| C1[Tumor & Normal Alignment]
+    B -->|Tumor-only| C2[Tumor Alignment]
+    C1 --> D1[Somatic Variant Calling<br>Mutect2]
+    C2 --> D2[Germline Variant Calling<br>HaplotypeCaller]
+    D1 & D2 --> E[Variant Annotation<br>ANNOVAR]
+    E --> F[Report Generation<br>R Markdown, PDF, JSON]
+    F --> G[All Results Merged]
